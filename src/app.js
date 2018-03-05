@@ -1,17 +1,26 @@
 const argv = require('yargs')
+.option('dry', {
+    alias: 'd',
+    description: 'Dry Run',
+    required: false,
+    type: 'boolean',
+})
 .option('pattern', {
     alias: 'r',
     description: 'Regex pattern',
+    required: true,
     type: 'string',
 })
 .option('ports', {
     alias: 'p',
     description: 'Comma-separated list of ports',
+    required: true,
     type: 'string',
 })
 .option('servers', {
     alias: 's',
     description: 'Comma-separated list of server IP Addresses/Hostnames',
+    required: true,
     type: 'string',
 })
 .argv;
