@@ -1,0 +1,27 @@
+{
+  "name": "clear-redis",
+  "version": "0.1.0",
+  "description": "Clear Redis using a pattern",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barend-erasmus/clear-redis.git"
+  },
+  "author": "Barend Erasmus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barend-erasmus/clear-redis/issues"
+  },
+  "homepage": "https://github.com/barend-erasmus/clear-redis#readme",
+  "bin": {
+    "clear-redis": "./bin/clear-redis"
+  },
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "redis": "^2.8.0",
+    "yargs": "^11.0.0"
+  }
+}
