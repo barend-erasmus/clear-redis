@@ -30,12 +30,12 @@ Options:
 Output:
 
 ```
-Found 712 on 10.0.0.1:7001.
+Found 712 keys on 10.0.0.1:7001.
 Successfully deleted 712 keys.
-Found 664 on 10.0.0.1:7002.
+Found 664 keys on 10.0.0.1:7002.
 Successfully deleted 664 keys.
-Found 717 on 10.0.0.2:7001.
+Found 717 keys on 10.0.0.2:7001.
 Successfully deleted 717 keys.
-Found 668 on 10.0.0.2:7002.
+Found 668 keys on 10.0.0.2:7002.
 Successfully deleted 668 keys.
 ```

@@ -43,14 +43,14 @@ const redis = require("redis");
 
                 const keys = await listKeys(client, argv.pattern);
 
-                console.log(chalk.blue(`Found ${keys.length} on ${server}:${port}.`));
+                console.log(chalk.blue(`Found ${keys.length} key${keys.length > 1? 's' : ''} on ${server}:${port}.`));
 
                 let failedCount = 0;
 
                 for (const key of keys) {
                     try {
                         if (!argv.dry) {
-                            await deleteKey(key);
+                            await deleteKey(client, key);
                         }
                     } catch (err) {
                         failedCount++;
@@ -58,9 +58,9 @@ const redis = require("redis");
                 }
 
                 if (failedCount) {
-                    console.log(chalk.red(`Failed to delete ${failedCount} keys.`));
+                    console.log(chalk.red(`Failed to delete ${failedCount} key${failedCount > 1? 's' : ''}.`));
                 } else {
-                    console.log(chalk.green(`Successfully deleted ${keys.length} keys.`));
+                    console.log(chalk.green(`Successfully deleted ${keys.length} key${keys.length > 1? 's' : ''}.`));
                 }
 
             } catch (err) {
