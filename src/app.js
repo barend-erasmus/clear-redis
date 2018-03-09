@@ -43,18 +43,22 @@ const redis = require("redis");
 
                 const keys = await listKeys(client, argv.pattern);
 
-                console.log(chalk.blue(`Found ${keys.length} key${keys.length > 1? 's' : ''} on ${server}:${port}.`));
+                console.log(chalk.cyan(`Found ${keys.length} key${keys.length > 1? 's' : ''} on ${server}:${port}.`));
 
                 let failedCount = 0;
 
-                for (const key of keys) {
-                    try {
-                        if (!argv.dry) {
-                            await deleteKey(client, key);
-                        }
-                    } catch (err) {
-                        failedCount++;
+                const chunkSize = 300;
+
+                for (let i = 0; i < keys.length; i += chunkSize) {
+                    const tempKeys = keys.slice(i, i + chunkSize);
+
+                    if (!argv.dry) {
+                        const result = await Promise.all(tempKeys.map((key) => deleteKey(client, key)));
+
+                        failedCount += result.filter((item) => !item).length;
                     }
+
+                    console.log(chalk.magenta(`Deleted ${i + tempKeys.length} of ${keys.length} keys.`));
                 }
 
                 if (failedCount) {
@@ -64,6 +68,7 @@ const redis = require("redis");
                 }
 
             } catch (err) {
+                console.error(err);
                 console.log(chalk.red(`Failed to connect to ${server}:${port}.`));
             }
             finally {
@@ -90,11 +95,16 @@ async function deleteKey(client, key) {
     return new Promise((resolve, reject) => {
         client.del(key, (err) => {
             if (err) {
-                reject(err);
+                if (err.code === 'MOVED') {
+                    resolve(true);
+                }else {
+                    resolve(false);
+                }
+                
                 return;
             }
 
-            resolve();
+            resolve(true);
         });
     });
 }
